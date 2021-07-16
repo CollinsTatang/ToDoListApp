@@ -1,0 +1,128 @@
+body {
+  background-color: black;
+}
+
+h1,
+h3,
+h6,
+p {
+  margin: unset;
+}
+
+button {
+  border: unset;
+  background-color: unset;
+  cursor: pointer;
+}
+
+.container {
+  width: 500px;
+  min-height: max-content;
+  background: #f6f6f6;
+  box-shadow: 3px 3px 3px 3px grey;
+  justify-items: stretch;
+  display: grid;
+  grid-template-rows: 36px 36px auto 36px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 90% 10%;
+  min-height: 36px;
+  align-items: center;
+  background-color: white;
+}
+
+.title {
+  text-align: start;
+  font-family: monospace;
+  padding-left: 12px;
+  font-size: 14px;
+  grid-row-start: 1;
+  margin: unset;
+}
+
+#task-form {
+  min-height: 36px;
+  grid-row-start: 2;
+  background-color: white;
+  border: 1px solid #dcdcdc7a;
+  display: grid;
+  grid-template-columns: auto 10%;
+}
+
+.text {
+  width: 90%;
+  font-style: italic;
+  border: unset;
+  padding-left: 12px;
+}
+
+.text::first-letter {
+  text-transform: capitalize !important;
+}
+
+input:focus-visible {
+  border: unset;
+  outline: unset;
+}
+
+ul {
+  grid-row-start: 3;
+  margin: unset;
+  padding: unset;
+  background-color: white;
+  list-style-type: none;
+}
+
+li {
+  padding: unset;
+  border: 1px solid #dcdcdc7a;
+}
+
+.task {
+  display: grid;
+  grid-template-columns: 10% auto 10%;
+  padding: 1%;
+  align-items: center;
+}
+
+.description {
+  font-family: monospace;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border: unset;
+  background: transparent;
+}
+
+.circle {
+  width: 28px;
+  height: 28px;
+  background-color: black;
+}
+
+#add-btn {
+  opacity: 0.3;
+}
+
+.add-btn-img {
+  width: 14px;
+  opacity: 0.3;
+}
+
+.edit-btn {
+  cursor: all-scroll;
+}
+
+.refresh-btn {
+  text-align: end;
+}
+
+.dragging {
+  opacity: 0.2;
+  cursor: all-scroll;
+}
