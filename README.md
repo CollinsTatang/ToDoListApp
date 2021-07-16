@@ -32,7 +32,7 @@ If you want a copy of this file go to the github repository and download it from
 - [`https://github.com/CollinsTatang/To-Do-List.git`](https://github.com/CollinsTatang/To-Do-List.git)
 
 
-### Setup
+#### Setup
 
 ```cmd
 git clone  https://github.com/CollinsTatang/To-Do-List.git
