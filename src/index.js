@@ -5,14 +5,7 @@ import { drag, drop, allowDrop } from './drag_drop';
 import updateTasks from './status';
 import { addTask, editTask, clear } from './add_remove';
 
-let tasks = [
-  {
-    index: 1, completed: false, description: 'Tax Collection',
-  },
-  {
-    index: 2, completed: true, description: 'Stand-up',
-  },
-];
+let tasks = [];
 
 /**       Saves and retrieves from local storage       */
 window.updateLocalStorage = function updateLocalStorage(retrieve) {
