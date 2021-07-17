@@ -1,9 +1,9 @@
 import './style.css';
 import RecycleImg from './recycle.svg';
 import MoreImg from './more.svg';
-import { drag, drop, allowDrop } from './drag_drop.js';
-import updateTasks from './status.js';
-import { addTask, editTask, clear } from './add_remove.js';
+import { drag, drop, allowDrop } from './drag_drop';
+import updateTasks from './status';
+import { addTask, editTask, clear } from './add_remove';
 
 let tasks = null;
 
