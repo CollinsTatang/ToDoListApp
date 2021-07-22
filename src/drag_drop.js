@@ -6,27 +6,26 @@ function allowDrop(e) {
   toLiIndex = e.currentTarget.id;
 }
 
-function drag() {
-  // e.dataTransfer.setData("text", e.currentTarget.id);
+function drag(e) {
+  e.dataTransfer.setData('text', e.currentTarget.id);
 }
 
-function drop(oldIndex, newIndex) {
-  const data = `div${oldIndex}`;
-  const oldDiv = global.document.getElementById(data);
-  const oldLi = global.document.getElementById(parseInt(oldIndex));
-  const newLi = global.document.getElementById(parseInt(newIndex));
-  const newDiv = newLi.getElementsByTagName("div")[0];
-
-  const oldDivData = oldIndex;
-  const newDivData = newIndex;
-
-  oldDiv.data = parseInt(newDivData);
-  newDiv.data = parseInt(oldDivData);
+function drop(e) {
+  e.preventDefault();
+  const data = e.dataTransfer.getData('text');
+  const oldDiv = document.getElementById(data);
+  const oldLi = document.getElementById(oldDiv.data);
+  const newLi = document.getElementById(toLiIndex);
+  const newDiv = newLi.getElementsByTagName('div')[0];
+  const oldDivData = oldDiv.data;
+  const newDivData = newDiv.data;
+  oldDiv.data = newDivData;
+  newDiv.data = oldDivData;
   oldLi.appendChild(newDiv);
   oldLi.removeChild(oldDiv);
   newLi.appendChild(oldDiv);
-  global.update();
+
+  window.update();
 }
 
-//export { allowDrop, drag, drop };
-module.exports = { allowDrop, drag, drop };
+export { allowDrop, drag, drop };
