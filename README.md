@@ -1,29 +1,22 @@
-# To Do List: secure deploy
+# Testing To Do list: part 1
 
 ![Microverse](https://img.shields.io/badge/Microverse-blueviolet)
 
 ## Learning objectives
-- To have a better understanding using webpack.
-- Deploy a secure website using OpenSSL.
-
+- Write units tests for a JavaScript app.
 ### Project requirements
-- Commit and push all your work into the project's GitHub repository.
-- If you worked with branches, make sure you merge all your work into the main branch.
-- Deploy your website using GitHub Pages (you are already familiar with this process), but this time pay attention to the extra step that will ensure that your app uses HTTPS protocol:
-- Scroll to the bottom of the Pages page and make sure the "Enforce HTTPS" checkbox is selected.
-- Confirm the deployment. Your application will be live in few minutes. On the top of the Pages page you will find your project's URL.
-- Make sure that your app URL uses SSL.
-- Update the README of your repository to include a link to the online version.
+- This is a pair-programming project. Please decide whose project will you use for testing.
+- Create a test file ([..].test.js) for a file containing the add item and delete item functions that you want to test.
+- Take a look at each of these functions. Are they pure functions? If the answer is "yes" then writing tests for them should be straightforward. Some of those functions however will update localStorage and manipulate the DOM. For those, you will need to use mocks:
+  -Mock a storage object to "imitate" localStorage operations.
+  -Mock HTML to test if add/delete functions add or remove exactly one <li> element to/from the list in the DOM.
+- Make sure you group your tests using the description() method.
 
-========
-
-## Built With 
+## Built With
 
 - HTML/CSS
 - JavaSCcript
 - Node.JS
-
-========
 
 ## Getting Started
 
@@ -32,6 +25,8 @@ If you want a copy of this file go to the github repository and download it from
 - [`https://github.com/CollinsTatang/To-Do-List.git`](https://github.com/CollinsTatang/To-Do-List.git)
 
 ### Live
+
+[Live](https://collinstatang.github.io/ToDoListApp/)
 
 [Live](https://collinstatang.github.io/ToDoListApp/)
 #### Setup
@@ -52,7 +47,9 @@ npm install
 ```cmd
 npm start
 ```
-
+```cmd
+npm test
+```
 
 If you are non a technical person you can download the zip file.
 
@@ -72,8 +69,6 @@ If you are non a technical person you can download the zip file.
 
 - Node.JS
 
-=======
-
 ## Author
 
 👤 **Makungong Collins Tatang**
@@ -82,7 +77,12 @@ If you are non a technical person you can download the zip file.
 - Twitter: [@CollinsTatang1](https://twitter.com/CollinsTatang1)
 - LinkedIn: [Makungong Collins](https://www.linkedin.com/in/makungong-collins/)
 
-=======
+
+👤 **Moises Hernandez Coronado**
+
+- GitHub: [@Mhdez221993](https://github.com/Mhdez221993)
+- Twitter: [@MoisesH42060050](https://twitter.com/MoisesH42060050)
+- LinkedIn: [Moises Hernandez Coronado](https://www.linkedin.com/in/moises-hernandez-9bbb17145/)
 
 ## 🤝 Contributing
 
@@ -90,17 +90,11 @@ Contributions, issues, and feature requests are welcome!
 
 Feel free to check the [issues page](../../issues/).
 
-=======
-
 ## Show your support
 
 Give a ⭐️ if you like this project!
-
-=======
 
 ## Acknowledgments
 
 - Microverse for giving me this chance
 - The amazing code reviewers for making me improve every day :thumbsup:
-
-=======
