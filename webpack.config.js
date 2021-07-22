@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const options = {};
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     index: './src/index.js',
   },
@@ -21,6 +21,7 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
     chunkFilename: '[id].[chunkhash].js',
+    publicPath: '/ToDoListApp/',
     clean: true,
   },
   module: {

@@ -1,7 +1,7 @@
 {
-  "index.js": "automain.js",
-  "delete.svg": "auto4b93a41b701ac18332f8.svg",
-  "recycle.svg": "autoede1a9b720f79252166c.svg",
-  "more.svg": "auto3adb9cb42cd31f0448c7.svg",
-  "index.html": "autoindex.html"
+  "index.js": "/ToDoListApp/main.js",
+  "delete.svg": "/ToDoListApp/4b93a41b701ac18332f8.svg",
+  "recycle.svg": "/ToDoListApp/ede1a9b720f79252166c.svg",
+  "more.svg": "/ToDoListApp/3adb9cb42cd31f0448c7.svg",
+  "index.html": "/ToDoListApp/index.html"
 }
