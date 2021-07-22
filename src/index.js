@@ -1,33 +1,40 @@
-import './style.css';
-import RecycleImg from './recycle.svg';
-import MoreImg from './more.svg';
-import { drag, drop, allowDrop } from './drag_drop';
-import updateTasks from './status';
-import { addTask, editTask, clear } from './add_remove';
+import { updateTasks } from "./status";
+import { addTask, removeTask, editTask, clear } from "./add_remove";
+import { allowDrop, drag, drop } from "../../../src/drag_drop";
 
-let tasks = null;
+import { storageMock } from "./storageMock";
+const fs = require("fs");
+var jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
+window.document.body.innerHTML = fs.readFileSync("src/index.html");
+
+// mock the localStorage
+window.localStorage = storageMock();
+// mock the sessionStorage
+window.sessionStorage = storageMock();
+/**    The code from index starts here       */
+let tasks = [
+  { id: 0, index: 0, description: "Do things", completed: true },
+  { id: 1, index: 1, description: "Do more things", completed: false },
+];
 
 /**       Saves and retrieves from local storage       */
 window.updateLocalStorage = function updateLocalStorage(retrieve) {
   if (retrieve === true) {
     if (tasks === null) {
-      tasks = JSON.parse(window.localStorage.getItem('tasks'));
+      // tasks = JSON.parse(window.localStorage.getItem("tasks"));
     }
   } else {
-    window.localStorage.setItem('tasks', JSON.stringify(tasks));
+    window.localStorage.setItem("tasks", JSON.stringify(tasks));
   }
+
   window.displayTasks();
 };
 
 /**       Handler for calling a task from and inline declared listener */
 window.callAddTask = function callAddTask() {
   addTask(tasks);
-};
-
-/**       Handler for calling a task from and inline declared listener */
-window.restart = function restart() {
-  tasks = null;
-  window.updateLocalStorage(false);
 };
 
 /**       Update the state of the tasks            */
@@ -44,68 +51,67 @@ window.update = function update(data) {
 
 /**       Display tasks is used to show the Task collection      */
 window.displayTasks = function displayTasks() {
-  const container = document.getElementById('container');
-  const list = document.createElement('ul');
-  list.id = 'list';
-  const EnterImg = '&#8629';
+  const container = window.document.getElementById("container");
+  const list = window.document.createElement("ul");
+  list.id = "list";
+  const EnterImg = "&#8629";
 
   if (tasks) {
     tasks.forEach((task, index) => {
       const { description, id } = task;
-      const li = document.createElement('li');
+      const li = window.document.createElement("li");
       li.id = index;
-      li.addEventListener('drop', (EventTarget) => {
-        li.classList.remove('dragging');
+      li.addEventListener("drop", (EventTarget) => {
+        li.classList.remove("dragging");
         drop(EventTarget);
       });
 
-      li.addEventListener('dragover', (EventTarget) => {
+      li.addEventListener("dragover", (EventTarget) => {
         allowDrop(EventTarget);
       });
 
-      const div = document.createElement('div');
+      const div = window.document.createElement("div");
       const divId = `div${task.index}`;
 
-      div.classList.add('task');
+      div.classList.add("task");
       div.id = divId;
-      div.classList.add('drag-div');
+      div.classList.add("drag-div");
       div.draggable = true;
-      div.addEventListener('click', () => editTask(divId, tasks));
+      div.addEventListener("click", () => editTask(divId, tasks));
       div.data = index;
-      div.addEventListener('dragstart', (EventTarget) => {
-        div.classList.add('dragging');
+      div.addEventListener("dragstart", (EventTarget) => {
+        div.classList.add("dragging");
         drag(EventTarget);
       });
 
-      const inputCheckbox = document.createElement('input');
-      inputCheckbox.addEventListener('click', () => {
+      const inputCheckbox = window.document.createElement("input");
+      inputCheckbox.addEventListener("click", () => {
         window.update();
       });
-      inputCheckbox.type = 'checkbox';
+      inputCheckbox.type = "checkbox";
       inputCheckbox.name = task.id;
       inputCheckbox.id = `input-check-${id}`;
       inputCheckbox.checked = task.completed;
 
-      const inputTask = document.createElement('input');
+      const inputTask = window.document.createElement("input");
       inputTask.id = `li-description-${id}`;
-      inputTask.type = 'text';
-      inputTask.classList.add('description');
+      inputTask.type = "text";
+      inputTask.classList.add("description");
       inputTask.placeholder = description;
       inputTask.value = description || null;
       inputTask.data = task.index;
-      inputTask.addEventListener('change', () => {
+      inputTask.addEventListener("change", () => {
         window.update();
       });
 
-      const button = document.createElement('button');
-      button.classList.add('edit-btn');
+      const button = document.createElement("button");
+      button.classList.add("edit-btn");
       button.id = `edit-btn-${id}`;
-      button.type = 'button';
+      button.type = "button";
 
-      const img = document.createElement('img');
-      img.src = MoreImg;
-      img.alt = 'image';
-      img.classList.add('add-btn-img');
+      const img = document.createElement("img");
+      img.alt = "image";
+      img.classList.add("add-btn-img");
 
       button.appendChild(img);
       div.appendChild(inputCheckbox);
@@ -121,7 +127,7 @@ window.displayTasks = function displayTasks() {
            <button id="refresh-btn" type="button" 
             onclick="window.restart()"
             type="button"> 
-            <img class="add-btn-img" src=${RecycleImg} alt="" /> 
+            <img class="add-btn-img" src="null" alt="" /> 
             </button>
   </div>       
           <form onsubmit="window.callAddTask()" id="task-form">
@@ -133,21 +139,24 @@ window.displayTasks = function displayTasks() {
             />
             <button id="add-btn" type="submit" 
             type="button"> 
-          ${EnterImg}
+         
             </button>
           </form>       
           `;
 
   container.innerHTML = template;
-  const buttonHtml = document.createElement('button');
-  buttonHtml.id = 'clear-btn';
-  buttonHtml.addEventListener('click', () => {
+  const buttonHtml = window.document.createElement("button");
+
+  buttonHtml.id = "clear-btn";
+  buttonHtml.addEventListener("click", () => {
     clear(tasks);
   });
-  buttonHtml.textContent = 'Clear completed tasks.';
-  container.insertAdjacentElement('beforeend', list);
-  container.insertAdjacentElement('beforeend', buttonHtml);
+  buttonHtml.textContent = "Clear completed tasks.";
+  container.insertAdjacentElement("beforeend", list);
+  container.insertAdjacentElement("beforeend", buttonHtml);
 };
 
 window.updateLocalStorage(true);
 window.displayTasks();
+
+module.exports = { displayTasks, update, tasks };

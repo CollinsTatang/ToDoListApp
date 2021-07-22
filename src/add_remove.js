@@ -1,24 +1,19 @@
-/* --- This file contains the functions required to add and remove tasks   */
-
-import TrashImg from './delete.svg';
-import MoreImg from './more.svg';
+/* --- This file contains the functions required to test the add and  remove tasks
+*/
 
 function addTask(tasks) {
-  const str = document.getElementById('description').value;
+  const str = global.document.getElementById("description").value;
   const firstLetter = str.charAt(0).toUpperCase();
   str.replace(str.charAt(0), firstLetter);
   const description = str;
   const completed = false;
   const date = new Date();
   const id = date.getMilliseconds();
-
   if (!tasks) {
     tasks = [];
   }
-
   const index = tasks.length + 1;
-
-  if (tasks && description !== '') {
+  if (tasks && description !== "") {
     const task = {
       description,
       completed,
@@ -42,32 +37,32 @@ function addTask(tasks) {
 }
 
 function removeTask(data, tasks) {
-  const str = data.replace('div', '');
+  const str = data.replace("div", "");
   const newTasks = [];
   tasks.forEach((task) => {
     if (task.index !== parseInt(str, 10)) {
       newTasks.push(task);
     }
   });
-  window.update(newTasks);
+  global.update(newTasks);
 }
 
 function editTask(divId, tasks) {
-  const list = document.getElementsByClassName('drag-div');
+  const list = document.getElementsByClassName("drag-div");
   Array.from(list).forEach((li) => {
     if (li.id === divId) {
-      li.style.backgroundColor = '#fff59c78';
-      const img = li.getElementsByTagName('img')[0];
-      img.src = TrashImg;
-      img.style.cursor = 'pointer';
-      img.addEventListener('click', () => {
+      li.style.backgroundColor = "#fff59c78";
+      const img = li.getElementsByTagName("img")[0];
+      img.src = "./";
+      img.style.cursor = "pointer";
+      img.addEventListener("click", () => {
         removeTask(divId, tasks);
       });
     } else {
-      li.style.backgroundColor = 'white';
-      const img = li.getElementsByTagName('img')[0];
-      img.src = MoreImg;
-      img.style.cursor = 'all-scroll';
+      li.style.backgroundColor = "white";
+      const img = li.getElementsByTagName("img")[0];
+      img.src = "./";
+      img.style.cursor = "all-scroll";
     }
   });
 }
@@ -82,4 +77,6 @@ function clear(tasks) {
   window.update(temp);
 }
 
-export { addTask, editTask, clear };
+/**   This is the module export required by Jest test      */
+
+module.exports = { addTask, removeTask, editTask, clear };
