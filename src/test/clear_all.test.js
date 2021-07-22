@@ -1,8 +1,8 @@
 import { fireEvent } from "@testing-library/dom";
 import "@testing-library/jest-dom/extend-expect";
 import "regenerator-runtime/runtime";
-import { displayTasks } from "./test_files/index";
-import { tasks } from "./test_files/add_remove";
+import { displayTasks } from "../index";
+import { tasks } from "../add_remove";
 
 displayTasks();
 

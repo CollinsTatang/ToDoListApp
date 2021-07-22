@@ -1,8 +1,8 @@
 /**      A function for editing the task description.       */
-import { addTask, removeTask } from "./test_files/add_remove";
-import { displayTasks, tasks } from "./test_files/index";
+import { addTask, removeTask } from "../add_remove";
+import { displayTasks, tasks } from "../index";
 
-jest.mock("./test_files/add_remove");
+jest.mock("../add_remove");
 
 displayTasks();
 

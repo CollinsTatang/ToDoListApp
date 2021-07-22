@@ -2,8 +2,8 @@
 import { fireEvent, getByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/extend-expect";
 import "regenerator-runtime/runtime";
-import { displayTasks, update } from "./test_files/index";
-import { drag, drop } from "./test_files/drag_drop";
+import { displayTasks, update } from "../index";
+import { drag, drop } from "../drag_drop";
 
 displayTasks();
 
