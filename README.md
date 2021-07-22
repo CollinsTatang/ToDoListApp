@@ -1,20 +1,16 @@
-# To Do List: secure deploy
+# Testing To Do list: part 2
 
 ![Microverse](https://img.shields.io/badge/Microverse-blueviolet)
 
 ## Learning objectives
-- To have a better understanding using webpack.
-- Deploy a secure website using OpenSSL.
-
+- Write units tests for a JavaScript app.
 ### Project requirements
-- Commit and push all your work into the project's GitHub repository.
-- If you worked with branches, make sure you merge all your work into the main branch.
-- Deploy your website using GitHub Pages (you are already familiar with this process), but this time pay attention to the extra step that will ensure that your app uses HTTPS protocol:
-- Scroll to the bottom of the Pages page and make sure the "Enforce HTTPS" checkbox is selected.
-- Confirm the deployment. Your application will be live in few minutes. On the top of the Pages page you will find your project's URL.
-- Make sure that your app URL uses SSL.
-- Update the README of your repository to include a link to the online version.
-
+- This is a pair-programming project. Please decide whose project will you use for testing.
+- Create a test file ([..].test.js) for a file containing the add item and delete item functions that you want to test.
+- Take a look at each of these functions. Are they pure functions? If the answer is "yes" then writing tests for them should be straightforward. Some of those functions however will update localStorage and manipulate the DOM. For those, you will need to use mocks:
+  -Mock a storage object to "imitate" localStorage operations.
+  -Mock HTML to test if add/delete functions add or remove exactly one <li> element to/from the list in the DOM.
+- Make sure you group your tests using the description() method.
 ========
 
 ## Built With 
@@ -53,7 +49,9 @@ npm install
 ```cmd
 npm start
 ```
-
+```cmd
+npm test
+```
 
 If you are non a technical person you can download the zip file.
 
