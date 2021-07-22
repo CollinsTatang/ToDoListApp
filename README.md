@@ -17,7 +17,7 @@
 
 ========
 
-## Built With 
+## Built With
 
 - HTML/CSS
 - JavaSCcript
@@ -81,6 +81,13 @@ If you are non a technical person you can download the zip file.
 - GitHub: [@CollinsTatang1](https://github.com/CollinsTatang)
 - Twitter: [@CollinsTatang1](https://twitter.com/CollinsTatang1)
 - LinkedIn: [Makungong Collins](https://www.linkedin.com/in/makungong-collins/)
+
+
+👤 **Moises Hernandez Coronado**
+
+- GitHub: [@Mhdez221993](https://github.com/Mhdez221993)
+- Twitter: [@MoisesH42060050](https://twitter.com/MoisesH42060050)
+- LinkedIn: [Moises Hernandez Coronado](https://www.linkedin.com/in/moises-hernandez-9bbb17145/)
 
 =======
 
