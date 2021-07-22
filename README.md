@@ -1,4 +1,4 @@
-# Testing To Do list: part 2
+# Testing To Do list: part 1
 
 ![Microverse](https://img.shields.io/badge/Microverse-blueviolet)
 

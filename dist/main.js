@@ -10,6 +10,46 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/add_remove.js":
+/*!***************************!*\
+  !*** ./src/add_remove.js ***!
+  \***************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addTask\": () => (/* binding */ addTask),\n/* harmony export */   \"editTask\": () => (/* binding */ editTask),\n/* harmony export */   \"clear\": () => (/* binding */ clear)\n/* harmony export */ });\n/* harmony import */ var _delete_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./delete.svg */ \"./src/delete.svg\");\n/* harmony import */ var _more_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./more.svg */ \"./src/more.svg\");\n/* module decorator */ module = __webpack_require__.hmd(module);\n/* --- This file contains the functions required to add and remove tasks   */\n\n\n\nfunction addTask(tasks) {\n  var str = document.getElementById(\"description\").value;\n  var firstLetter = str.charAt(0).toUpperCase();\n  str.replace(str.charAt(0), firstLetter);\n  var description = str;\n  var completed = false;\n  var date = new Date();\n  var id = date.getMilliseconds();\n\n  if (!tasks) {\n    tasks = [];\n  }\n\n  var index = tasks.length + 1;\n\n  if (tasks && description !== \"\") {\n    var task = {\n      description: description,\n      completed: completed,\n      index: index,\n      id: id\n    };\n    tasks.push(task);\n    tasks.sort(function (taskA, taskB) {\n      var indexA = taskA.position;\n      var indexB = taskB.position;\n\n      if (indexA < indexB) {\n        return -1;\n      }\n\n      if (indexA > indexB) {\n        return 1;\n      }\n\n      return 0;\n    });\n    window.update(tasks);\n  }\n}\n\nfunction removeTask(data, tasks) {\n  var str = data.replace(\"div\", \"\");\n  var newTasks = [];\n  tasks.forEach(function (task) {\n    if (task.index !== parseInt(str, 10)) {\n      newTasks.push(task);\n    }\n  });\n  window.update(newTasks);\n}\n\nfunction editTask(divId, tasks) {\n  var list = document.getElementsByClassName(\"drag-div\");\n  Array.from(list).forEach(function (li) {\n    if (li.id === divId) {\n      li.style.backgroundColor = \"#fff59c78\";\n      var img = li.getElementsByTagName(\"img\")[0];\n      img.src = _delete_svg__WEBPACK_IMPORTED_MODULE_0__;\n      img.style.cursor = \"pointer\";\n      img.addEventListener(\"click\", function () {\n        removeTask(divId, tasks);\n      });\n    } else {\n      li.style.backgroundColor = \"white\";\n      var _img = li.getElementsByTagName(\"img\")[0];\n      _img.src = _more_svg__WEBPACK_IMPORTED_MODULE_1__;\n      _img.style.cursor = \"all-scroll\";\n    }\n  });\n}\n\nfunction clear(tasks) {\n  var temp = [];\n  tasks.forEach(function (task) {\n    if (task.completed !== true) {\n      temp.push(task);\n    }\n  });\n  window.update(temp);\n}\n\n\n/**   This is the module export required by Jest test      */\n\nmodule.exports = addTask;\n\n//# sourceURL=webpack://webpack_m2-w2/./src/add_remove.js?");
+
+/***/ }),
+
+/***/ "./src/drag_drop.js":
+/*!**************************!*\
+  !*** ./src/drag_drop.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"allowDrop\": () => (/* binding */ allowDrop),\n/* harmony export */   \"drag\": () => (/* binding */ drag),\n/* harmony export */   \"drop\": () => (/* binding */ drop)\n/* harmony export */ });\n/* --- This file contains the functions required to create the Drag&Drop effect    */\nvar toLiIndex = null;\n\nfunction allowDrop(e) {\n  e.preventDefault();\n  toLiIndex = e.currentTarget.id;\n}\n\nfunction drag(e) {\n  e.dataTransfer.setData('text', e.currentTarget.id);\n}\n\nfunction drop(e) {\n  e.preventDefault();\n  var data = e.dataTransfer.getData('text');\n  var oldDiv = document.getElementById(data);\n  var oldLi = document.getElementById(oldDiv.data);\n  var newLi = document.getElementById(toLiIndex);\n  var newDiv = newLi.getElementsByTagName('div')[0];\n  var oldDivData = oldDiv.data;\n  var newDivData = newDiv.data;\n  oldDiv.data = newDivData;\n  newDiv.data = oldDivData;\n  oldLi.appendChild(newDiv);\n  oldLi.removeChild(oldDiv);\n  newLi.appendChild(oldDiv);\n  window.update();\n}\n\n\n\n//# sourceURL=webpack://webpack_m2-w2/./src/drag_drop.js?");
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _recycle_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recycle.svg */ \"./src/recycle.svg\");\n/* harmony import */ var _more_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./more.svg */ \"./src/more.svg\");\n/* harmony import */ var _drag_drop_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./drag_drop.js */ \"./src/drag_drop.js\");\n/* harmony import */ var _status_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./status.js */ \"./src/status.js\");\n/* harmony import */ var _add_remove_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./add_remove.js */ \"./src/add_remove.js\");\n\n\n\n\n\n\n\nfunction main() {\n  var tasks = null;\n  /**       Saves and retrieves from local storage       */\n\n  window.updateLocalStorage = updateLocalStorage = function updateLocalStorage(retrieve) {\n    if (retrieve === true) {\n      if (tasks === null) {\n        tasks = JSON.parse(window.localStorage.getItem(\"tasks\"));\n      }\n    } else {\n      window.localStorage.setItem(\"tasks\", JSON.stringify(tasks));\n    }\n\n    window.displayTasks();\n  };\n  /**       Handler for calling a task from and inline declared listener */\n\n\n  window.callAddTask = function callAddTask() {\n    (0,_add_remove_js__WEBPACK_IMPORTED_MODULE_5__.addTask)(tasks);\n  };\n  /**       Handler for calling a task from and inline declared listener */\n\n\n  window.restart = restart = function restart() {\n    tasks = null;\n    window.updateLocalStorage(false);\n  };\n  /**       Update the state of the tasks            */\n\n\n  window.update = function update(data) {\n    if (!data) {\n      var response = (0,_status_js__WEBPACK_IMPORTED_MODULE_4__.default)();\n      tasks = response;\n    } else {\n      tasks = data;\n    }\n\n    window.updateLocalStorage(false);\n  };\n  /**       Display tasks is used to show the Task collection      */\n\n\n  window.displayTasks = displayTasks = function displayTasks() {\n    var container = document.getElementById(\"container\");\n    var list = document.createElement(\"ul\");\n    list.id = \"list\";\n    var EnterImg = \"&#8629\";\n\n    if (tasks) {\n      tasks.forEach(function (task, index) {\n        var description = task.description,\n            id = task.id;\n        var li = document.createElement(\"li\");\n        li.id = index;\n        li.addEventListener(\"drop\", function (EventTarget) {\n          li.classList.remove(\"dragging\");\n          (0,_drag_drop_js__WEBPACK_IMPORTED_MODULE_3__.drop)(EventTarget);\n        });\n        li.addEventListener(\"dragover\", function (EventTarget) {\n          (0,_drag_drop_js__WEBPACK_IMPORTED_MODULE_3__.allowDrop)(EventTarget);\n        });\n        var div = document.createElement(\"div\");\n        var divId = \"div\".concat(task.index);\n        div.classList.add(\"task\");\n        div.id = divId;\n        div.classList.add(\"drag-div\");\n        div.draggable = true;\n        div.addEventListener(\"click\", function () {\n          return (0,_add_remove_js__WEBPACK_IMPORTED_MODULE_5__.editTask)(divId, tasks);\n        });\n        div.data = index;\n        div.addEventListener(\"dragstart\", function (EventTarget) {\n          div.classList.add(\"dragging\");\n          (0,_drag_drop_js__WEBPACK_IMPORTED_MODULE_3__.drag)(EventTarget);\n        });\n        var inputCheckbox = document.createElement(\"input\");\n        inputCheckbox.addEventListener(\"click\", function () {\n          window.update();\n        });\n        inputCheckbox.type = \"checkbox\";\n        inputCheckbox.name = task.id;\n        inputCheckbox.id = \"input-check-\".concat(id);\n        inputCheckbox.checked = task.completed;\n        var inputTask = document.createElement(\"input\");\n        inputTask.id = \"li-description-\".concat(id);\n        inputTask.type = \"text\";\n        inputTask.classList.add(\"description\");\n        inputTask.placeholder = description;\n        inputTask.value = description || null;\n        inputTask.data = task.index;\n        inputTask.addEventListener(\"change\", function () {\n          window.update();\n        });\n        var button = document.createElement(\"button\");\n        button.classList.add(\"edit-btn\");\n        button.id = \"edit-btn-\".concat(id);\n        button.type = \"button\";\n        var img = document.createElement(\"img\");\n        img.src = _more_svg__WEBPACK_IMPORTED_MODULE_2__;\n        img.alt = \"image\";\n        img.classList.add(\"add-btn-img\");\n        button.appendChild(img);\n        div.appendChild(inputCheckbox);\n        div.appendChild(inputTask);\n        div.appendChild(button);\n        li.appendChild(div);\n        list.appendChild(li);\n      });\n    }\n\n    var template = \"\\n  <div class=\\\"top\\\">\\n  <h1 class=\\\"title\\\">Today's To Do</h1>\\n           <button id=\\\"refresh-btn\\\" type=\\\"button\\\" \\n            onclick=\\\"window.restart()\\\"\\n            type=\\\"button\\\"> \\n            <img class=\\\"add-btn-img\\\" src=\".concat(_recycle_svg__WEBPACK_IMPORTED_MODULE_1__, \" alt=\\\"\\\" /> \\n            </button>\\n  </div>       \\n          <form onsubmit=\\\"window.callAddTask()\\\" id=\\\"task-form\\\">\\n            <input\\n              id=\\\"description\\\"\\n              type=\\\"text\\\"\\n              class=\\\"text\\\"\\n              placeholder=\\\"Add to your list ...\\\"\\n            />\\n            <button id=\\\"add-btn\\\" type=\\\"submit\\\" \\n            type=\\\"button\\\"> \\n          \").concat(EnterImg, \"\\n            </button>\\n          </form>       \\n          \");\n    container.innerHTML = template;\n    var buttonHtml = document.createElement(\"button\");\n    buttonHtml.id = \"clear-btn\";\n    buttonHtml.addEventListener(\"click\", function () {\n      (0,_add_remove_js__WEBPACK_IMPORTED_MODULE_5__.clear)(tasks);\n    });\n    buttonHtml.textContent = \"Clear completed tasks.\";\n    container.insertAdjacentElement(\"beforeend\", list);\n    container.insertAdjacentElement(\"beforeend\", buttonHtml);\n  };\n\n  window.updateLocalStorage(true);\n  window.displayTasks();\n}\n\nmain();\n\n//# sourceURL=webpack://webpack_m2-w2/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/status.js":
+/*!***********************!*\
+  !*** ./src/status.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* --- This file contains the functions needed to update the task object when a change is noted  */\nfunction updateTasks() {\n  var list = document.getElementsByTagName('li');\n  var tempTasks = [];\n\n  if (list.length !== 0) {\n    Array.from(list).forEach(function (li, index) {\n      var div = li.getElementsByTagName('div')[0];\n      var completed = div.getElementsByTagName('input')[0].checked;\n      var id = div.getElementsByTagName('input')[0].name;\n      var description = div.getElementsByTagName('input')[1].value;\n      var task = {\n        completed: completed,\n        description: description,\n        index: index,\n        id: id\n      };\n      tempTasks.push(task);\n    });\n  }\n\n  return tempTasks;\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateTasks);\n\n//# sourceURL=webpack://webpack_m2-w2/./src/status.js?");
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/style.css":
 /*!*************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/style.css ***!
@@ -100,16 +140,6 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, style) {\
 
 /***/ }),
 
-/***/ "./src/add_remove.js":
-/*!***************************!*\
-  !*** ./src/add_remove.js ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addTask\": () => (/* binding */ addTask),\n/* harmony export */   \"editTask\": () => (/* binding */ editTask),\n/* harmony export */   \"clear\": () => (/* binding */ clear)\n/* harmony export */ });\n/* harmony import */ var _delete_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./delete.svg */ \"./src/delete.svg\");\n/* harmony import */ var _more_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./more.svg */ \"./src/more.svg\");\n/* --- This file contains the functions required to add and remove tasks   */\n\n\n\n\nfunction addTask(tasks) {\n  const str = document.getElementById('description').value;\n  const firstLetter = str.charAt(0).toUpperCase();\n  str.replace(str.charAt(0), firstLetter);\n  const description = str;\n  const completed = false;\n  const date = new Date();\n  const id = date.getMilliseconds();\n\n  if (!tasks) {\n    tasks = [];\n  }\n\n  const index = tasks.length + 1;\n\n  if (tasks && description !== '') {\n    const task = {\n      description,\n      completed,\n      index,\n      id,\n    };\n    tasks.push(task);\n    tasks.sort((taskA, taskB) => {\n      const indexA = taskA.position;\n      const indexB = taskB.position;\n      if (indexA < indexB) {\n        return -1;\n      }\n      if (indexA > indexB) {\n        return 1;\n      }\n      return 0;\n    });\n    window.update(tasks);\n  }\n}\n\nfunction removeTask(data, tasks) {\n  const str = data.replace('div', '');\n  const newTasks = [];\n  tasks.forEach((task) => {\n    if (task.index !== parseInt(str, 10)) {\n      newTasks.push(task);\n    }\n  });\n  window.update(newTasks);\n}\n\nfunction editTask(divId, tasks) {\n  const list = document.getElementsByClassName('drag-div');\n  Array.from(list).forEach((li) => {\n    if (li.id === divId) {\n      li.style.backgroundColor = '#fff59c78';\n      const img = li.getElementsByTagName('img')[0];\n      img.src = _delete_svg__WEBPACK_IMPORTED_MODULE_0__;\n      img.style.cursor = 'pointer';\n      img.addEventListener('click', () => {\n        removeTask(divId, tasks);\n      });\n    } else {\n      li.style.backgroundColor = 'white';\n      const img = li.getElementsByTagName('img')[0];\n      img.src = _more_svg__WEBPACK_IMPORTED_MODULE_1__;\n      img.style.cursor = 'all-scroll';\n    }\n  });\n}\n\nfunction clear(tasks) {\n  const temp = [];\n  tasks.forEach((task) => {\n    if (task.completed !== true) {\n      temp.push(task);\n    }\n  });\n  window.update(temp);\n}\n\n\n\n//# sourceURL=webpack://webpack_m2-w2/./src/add_remove.js?");
-
-/***/ }),
-
 /***/ "./src/delete.svg":
 /*!************************!*\
   !*** ./src/delete.svg ***!
@@ -117,26 +147,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 eval("module.exports = __webpack_require__.p + \"4b93a41b701ac18332f8.svg\";\n\n//# sourceURL=webpack://webpack_m2-w2/./src/delete.svg?");
-
-/***/ }),
-
-/***/ "./src/drag_drop.js":
-/*!**************************!*\
-  !*** ./src/drag_drop.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"allowDrop\": () => (/* binding */ allowDrop),\n/* harmony export */   \"drag\": () => (/* binding */ drag),\n/* harmony export */   \"drop\": () => (/* binding */ drop)\n/* harmony export */ });\n/* --- This file contains the functions required to create the Drag&Drop effect    */\nlet toLiIndex = null;\n\nfunction allowDrop(e) {\n  e.preventDefault();\n  toLiIndex = e.currentTarget.id;\n}\n\nfunction drag(e) {\n  e.dataTransfer.setData('text', e.currentTarget.id);\n}\n\nfunction drop(e) {\n  e.preventDefault();\n  const data = e.dataTransfer.getData('text');\n  const oldDiv = document.getElementById(data);\n  const oldLi = document.getElementById(oldDiv.data);\n  const newLi = document.getElementById(toLiIndex);\n  const newDiv = newLi.getElementsByTagName('div')[0];\n  const oldDivData = oldDiv.data;\n  const newDivData = newDiv.data;\n  oldDiv.data = newDivData;\n  newDiv.data = oldDivData;\n  oldLi.appendChild(newDiv);\n  oldLi.removeChild(oldDiv);\n  newLi.appendChild(oldDiv);\n\n  window.update();\n}\n\n\n\n\n//# sourceURL=webpack://webpack_m2-w2/./src/drag_drop.js?");
-
-/***/ }),
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _recycle_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recycle.svg */ \"./src/recycle.svg\");\n/* harmony import */ var _more_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./more.svg */ \"./src/more.svg\");\n/* harmony import */ var _drag_drop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./drag_drop */ \"./src/drag_drop.js\");\n/* harmony import */ var _status__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./status */ \"./src/status.js\");\n/* harmony import */ var _add_remove__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./add_remove */ \"./src/add_remove.js\");\n\n\n\n\n\n\n\nlet tasks = null;\n\n/**       Saves and retrieves from local storage       */\nwindow.updateLocalStorage = function updateLocalStorage(retrieve) {\n  if (retrieve === true) {\n    if (tasks === null) {\n      tasks = JSON.parse(window.localStorage.getItem('tasks'));\n    }\n  } else {\n    window.localStorage.setItem('tasks', JSON.stringify(tasks));\n  }\n  window.displayTasks();\n};\n\n/**       Handler for calling a task from and inline declared listener */\nwindow.callAddTask = function callAddTask() {\n  (0,_add_remove__WEBPACK_IMPORTED_MODULE_5__.addTask)(tasks);\n};\n\n/**       Handler for calling a task from and inline declared listener */\nwindow.restart = function restart() {\n  tasks = null;\n  window.updateLocalStorage(false);\n};\n\n/**       Update the state of the tasks            */\nwindow.update = function update(data) {\n  if (!data) {\n    const response = (0,_status__WEBPACK_IMPORTED_MODULE_4__.default)();\n    tasks = response;\n  } else {\n    tasks = data;\n  }\n\n  window.updateLocalStorage(false);\n};\n\n/**       Display tasks is used to show the Task collection      */\nwindow.displayTasks = function displayTasks() {\n  const container = document.getElementById('container');\n  const list = document.createElement('ul');\n  list.id = 'list';\n  const EnterImg = '&#8629';\n\n  if (tasks) {\n    tasks.forEach((task, index) => {\n      const { description, id } = task;\n      const li = document.createElement('li');\n      li.id = index;\n      li.addEventListener('drop', (EventTarget) => {\n        li.classList.remove('dragging');\n        (0,_drag_drop__WEBPACK_IMPORTED_MODULE_3__.drop)(EventTarget);\n      });\n\n      li.addEventListener('dragover', (EventTarget) => {\n        (0,_drag_drop__WEBPACK_IMPORTED_MODULE_3__.allowDrop)(EventTarget);\n      });\n\n      const div = document.createElement('div');\n      const divId = `div${task.index}`;\n\n      div.classList.add('task');\n      div.id = divId;\n      div.classList.add('drag-div');\n      div.draggable = true;\n      div.addEventListener('click', () => (0,_add_remove__WEBPACK_IMPORTED_MODULE_5__.editTask)(divId, tasks));\n      div.data = index;\n      div.addEventListener('dragstart', (EventTarget) => {\n        div.classList.add('dragging');\n        (0,_drag_drop__WEBPACK_IMPORTED_MODULE_3__.drag)(EventTarget);\n      });\n\n      const inputCheckbox = document.createElement('input');\n      inputCheckbox.addEventListener('click', () => {\n        window.update();\n      });\n      inputCheckbox.type = 'checkbox';\n      inputCheckbox.name = task.id;\n      inputCheckbox.id = `input-check-${id}`;\n      inputCheckbox.checked = task.completed;\n\n      const inputTask = document.createElement('input');\n      inputTask.id = `li-description-${id}`;\n      inputTask.type = 'text';\n      inputTask.classList.add('description');\n      inputTask.placeholder = description;\n      inputTask.value = description || null;\n      inputTask.data = task.index;\n      inputTask.addEventListener('change', () => {\n        window.update();\n      });\n\n      const button = document.createElement('button');\n      button.classList.add('edit-btn');\n      button.id = `edit-btn-${id}`;\n      button.type = 'button';\n\n      const img = document.createElement('img');\n      img.src = _more_svg__WEBPACK_IMPORTED_MODULE_2__;\n      img.alt = 'image';\n      img.classList.add('add-btn-img');\n\n      button.appendChild(img);\n      div.appendChild(inputCheckbox);\n      div.appendChild(inputTask);\n      div.appendChild(button);\n      li.appendChild(div);\n      list.appendChild(li);\n    });\n  }\n  const template = `\n  <div class=\"top\">\n  <h1 class=\"title\">Today's To Do</h1>\n           <button id=\"refresh-btn\" type=\"button\" \n            onclick=\"window.restart()\"\n            type=\"button\"> \n            <img class=\"add-btn-img\" src=${_recycle_svg__WEBPACK_IMPORTED_MODULE_1__} alt=\"\" /> \n            </button>\n  </div>       \n          <form onsubmit=\"window.callAddTask()\" id=\"task-form\">\n            <input\n              id=\"description\"\n              type=\"text\"\n              class=\"text\"\n              placeholder=\"Add to your list ...\"\n            />\n            <button id=\"add-btn\" type=\"submit\" \n            type=\"button\"> \n          ${EnterImg}\n            </button>\n          </form>       \n          `;\n\n  container.innerHTML = template;\n  const buttonHtml = document.createElement('button');\n  buttonHtml.id = 'clear-btn';\n  buttonHtml.addEventListener('click', () => {\n    (0,_add_remove__WEBPACK_IMPORTED_MODULE_5__.clear)(tasks);\n  });\n  buttonHtml.textContent = 'Clear completed tasks.';\n  container.insertAdjacentElement('beforeend', list);\n  container.insertAdjacentElement('beforeend', buttonHtml);\n};\n\nwindow.updateLocalStorage(true);\nwindow.displayTasks();\n\n\n//# sourceURL=webpack://webpack_m2-w2/./src/index.js?");
 
 /***/ }),
 
@@ -158,16 +168,6 @@ eval("module.exports = __webpack_require__.p + \"3adb9cb42cd31f0448c7.svg\";\n\n
 
 eval("module.exports = __webpack_require__.p + \"ede1a9b720f79252166c.svg\";\n\n//# sourceURL=webpack://webpack_m2-w2/./src/recycle.svg?");
 
-/***/ }),
-
-/***/ "./src/status.js":
-/*!***********************!*\
-  !*** ./src/status.js ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* --- This file contains the functions needed to update the task object when a change is noted  */\n\nfunction updateTasks() {\n  const list = document.getElementsByTagName('li');\n  const tempTasks = [];\n\n  if (list.length !== 0) {\n    Array.from(list).forEach((li, index) => {\n      const div = li.getElementsByTagName('div')[0];\n      const completed = div.getElementsByTagName('input')[0].checked;\n      const id = div.getElementsByTagName('input')[0].name;\n      const description = div.getElementsByTagName('input')[1].value;\n\n      const task = {\n        completed,\n        description,\n        index,\n        id,\n      };\n      tempTasks.push(task);\n    });\n  }\n\n  return tempTasks;\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateTasks);\n\n\n//# sourceURL=webpack://webpack_m2-w2/./src/status.js?");
-
 /***/ })
 
 /******/ 	});
@@ -185,12 +185,15 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			id: moduleId,
-/******/ 			// no module.loaded needed
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -221,6 +224,33 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -239,7 +269,22 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	
 /******/ 	/* webpack/runtime/publicPath */
 /******/ 	(() => {
-/******/ 		__webpack_require__.p = "/ToDoListApp/";
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

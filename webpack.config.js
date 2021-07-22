@@ -1,38 +1,44 @@
-const path = require('path');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const options = {};
 module.exports = {
-  mode: 'development',
+  mode: "development",
   entry: {
-    index: './src/index.js',
+    index: "./src/index.js",
   },
   devServer: {
-    contentBase: './dist',
+    contentBase: "./dist",
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: "./src/index.html",
     }),
     new WebpackManifestPlugin(options),
   ],
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    chunkFilename: '[id].[chunkhash].js',
-    publicPath: '/ToDoListApp/',
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+    chunkFilename: "[id].[chunkhash].js",
     clean: true,
   },
   module: {
     rules: [
       {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+      {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
