@@ -25,9 +25,7 @@ If you want a copy of this file go to the github repository and download it from
 
 - [`https://github.com/CollinsTatang/To-Do-List.git`](https://github.com/CollinsTatang/To-Do-List.git)
 
-### Live
-
-[Live](https://collinstatang.github.io/ToDoListApp/)
+#### Live
 
 [Live](https://collinstatang.github.io/ToDoListApp/)
 #### Setup
